@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.DefaultListModel;
@@ -16,16 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class Ej13_11 extends JFrame implements ActionListener {
-	static JFrame añadirframe;
+	static JFrame ventana;
 	static JTextField nombretexto;
 	static JTextField edadtexto;
 	static JLabel titulo;
@@ -34,10 +29,11 @@ public class Ej13_11 extends JFrame implements ActionListener {
 	static JPanel save;
 	static DefaultListModel<Personas> dlm;
 	static JButton añadir;
-	static JButton editar;
+	static JButton Borrar;
 	static JButton guardar;
 	static JButton cancelar;
 	static JList<Personas> lista;
+	static JButton Mostrar;
 
 	public static void main(String[] args) {
 		new Ej13_11();
@@ -60,9 +56,13 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		add(marco, BorderLayout.CENTER);
 
 
-		marco.add(editar = new JButton("Borrar"));
-		editar.addActionListener(this);
+		marco.add(Borrar = new JButton("Modificar"));
+		Borrar.addActionListener(this);
 		setLocation(850, 450);
+		setMinimumSize(new Dimension(400, 100));
+
+		marco.add(Mostrar = new JButton("Mostrar"));
+		Mostrar.addActionListener(this);
 		setMinimumSize(new Dimension(400, 100));
 
 		add(marco);
@@ -78,37 +78,43 @@ public class Ej13_11 extends JFrame implements ActionListener {
 			lista.clearSelection();
 			añadir();
 		}
-		if (botones.equals("Borar")) {
-			editar();
+		if (botones.equals("Borrar")) {
+			Borrar();
 		}
 		if (botones.equals("Guardar")) {
 			guardar();
 		}
 		if (botones.equals("Cancelar")) {
-			añadirframe.dispose();
+			ventana.dispose();
 			setVisible(true);
+		}
+		if (botones.equals("Modificar")){
+			modificar();
+		}
+		if (botones.equals("Mostrar")){
+			listaBase();
 		}
 	}
 
 	public void añadir() {
-		añadirframe = new JFrame();
-		añadirframe.setTitle("Personas");
+		ventana = new JFrame();
+		ventana.setTitle("Personas");
 		JPanel save = new JPanel(new GridLayout(4, 2, 5, 10));
-		añadirframe.add(save);
+		ventana.add(save);
 		save.add(new JLabel("Nombre"));
 		save.add(nombretexto = new JTextField(12));
 		save.add(new JLabel("Edad"));
 		save.add(edadtexto = new JTextField(11));
 
-		añadirframe.setMinimumSize(new Dimension(400, 100));
-		añadirframe.setLocation(850, 450);
+		ventana.setMinimumSize(new Dimension(400, 100));
+		ventana.setLocation(850, 450);
 
 		save.add(guardar = new JButton("Guardar"));
 		save.add(cancelar = new JButton("Cancelar"));
 		cancelar.addActionListener(this);
 		guardar.addActionListener(this);
-		añadirframe.pack();
-		añadirframe.setVisible(true);
+		ventana.pack();
+		ventana.setVisible(true);
 		dispose();
 
 	}
@@ -130,17 +136,54 @@ public class Ej13_11 extends JFrame implements ActionListener {
 
 	}
 
-	public void editar() {
+
+	public void Borrar() {
 		try {
 			Connection miCon = Conexion.conectar();
 			PreparedStatement eliminar = miCon.prepareStatement("DELETE FROM `persona` WHERE nombre = (?)");
 			eliminar.setString(1, nombretexto.getText());
 			eliminar.executeUpdate();
+			System.out.println("Borrado");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
+	}
+	public void modificar(){
+		ventana = new JFrame();
+		ventana.setTitle("Personas");
+		JPanel delete = new JPanel(new GridLayout(4, 2, 5, 10));
+		ventana.add(delete);
+		delete.add(new JLabel("Nombre"));
+		delete.add(nombretexto = new JTextField(12));
+
+		ventana.setMinimumSize(new Dimension(400, 100));
+		ventana.setLocation(850, 450);
+
+		delete.add(Borrar = new JButton("Borrar"));
+		delete.add(cancelar = new JButton("Cancelar"));
+		cancelar.addActionListener(this);
+		Borrar.addActionListener(this);
+		ventana.pack();
+		ventana.setVisible(true);
+		dispose();
+	}
+	public void listaBase(){
+		ventana = new JFrame();
+		ventana.setTitle("Personas");
+
+		JPanel mod = new JPanel(new GridLayout(4, 2, 5, 10));
+		ventana.add(mod);
+
+		ventana.setMinimumSize(new Dimension(400, 100));
+		ventana.setLocation(850, 450);
+
+		mod.add(cancelar = new JButton("Cancelar"));
+		cancelar.addActionListener(this);
+		ventana.pack();
+		ventana.setVisible(true);
+		dispose();
 	}
 
 
