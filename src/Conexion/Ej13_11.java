@@ -84,7 +84,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		if (botones.equals("Guardar")) {
 			guardar();
 		}
-		if (botones.equals("Cancelar")) {
+		if (botones.equals("Cancelar")||botones.equals("Atras")) {
 			ventana.dispose();
 			setVisible(true);
 		}
@@ -98,6 +98,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 
 	public void añadir() {
 		ventana = new JFrame();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setTitle("Personas");
 		JPanel save = new JPanel(new GridLayout(4, 2, 5, 10));
 		ventana.add(save);
@@ -152,6 +153,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 	}
 	public void modificar(){
 		ventana = new JFrame();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setTitle("Personas");
 		JPanel delete = new JPanel(new GridLayout(4, 2, 5, 10));
 		ventana.add(delete);
@@ -171,6 +173,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 	}
 	public void listaBase(){
 		ventana = new JFrame();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setTitle("Personas");
 
 		JPanel mod = new JPanel(new GridLayout(4, 2, 5, 10));
@@ -179,12 +182,15 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		ventana.setMinimumSize(new Dimension(400, 100));
 		ventana.setLocation(850, 450);
 
-		mod.add(cancelar = new JButton("Cancelar"));
+
+
+		mod.add(cancelar = new JButton("Atras"));
 		cancelar.addActionListener(this);
 		ventana.pack();
 		ventana.setVisible(true);
 		dispose();
 	}
+
 
 
 }
