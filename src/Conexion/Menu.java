@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.DefaultListModel;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class Ej13_11 extends JFrame implements ActionListener {
+public class Menu extends JFrame implements ActionListener {
 	static JFrame ventana;
 	static JTextField nombretexto;
 	static JTextField edadtexto;
@@ -28,6 +29,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 	static JPanel listaPosicion;
 	static JPanel save;
 	static DefaultListModel<Personas> dlm;
+	DefaultListModel dm = new DefaultListModel();
 	static JButton añadir;
 	static JButton Borrar;
 	static JButton guardar;
@@ -36,11 +38,11 @@ public class Ej13_11 extends JFrame implements ActionListener {
 	static JButton Mostrar;
 
 	public static void main(String[] args) {
-		new Ej13_11();
+		new Menu();
 
 	}
 
-	public Ej13_11() {
+	public Menu() {
 
 		setTitle("Personas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +54,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		listaPosicion = new JPanel();
 		listaPosicion.add(lista);
 		listaPosicion.setBorder(new EmptyBorder(10, 10, 10, 10));
+		listaPosicion.setMinimumSize(new Dimension(800,400));
 		add(listaPosicion, BorderLayout.NORTH);
 		add(marco, BorderLayout.CENTER);
 
@@ -61,13 +64,12 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		setLocation(850, 450);
 		setMinimumSize(new Dimension(400, 100));
 
-		marco.add(Mostrar = new JButton("Mostrar"));
-		Mostrar.addActionListener(this);
-		setMinimumSize(new Dimension(400, 100));
+
 
 		add(marco);
 
 		pack();
+		mostrarLista();
 		setVisible(true);
 	}
 
@@ -91,9 +93,7 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		if (botones.equals("Modificar")){
 			modificar();
 		}
-		if (botones.equals("Mostrar")){
-			listaBase();
-		}
+
 	}
 
 	public void añadir() {
@@ -171,26 +171,23 @@ public class Ej13_11 extends JFrame implements ActionListener {
 		ventana.setVisible(true);
 		dispose();
 	}
-	public void listaBase(){
-		ventana = new JFrame();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventana.setTitle("Personas");
-
-		JPanel mod = new JPanel(new GridLayout(4, 2, 5, 10));
-		ventana.add(mod);
-
-		ventana.setMinimumSize(new Dimension(400, 100));
-		ventana.setLocation(850, 450);
 
 
-
-		mod.add(cancelar = new JButton("Atras"));
-		cancelar.addActionListener(this);
-		ventana.pack();
-		ventana.setVisible(true);
-		dispose();
+	public void mostrarLista(){
+		try{
+			String query ="select * from `persona`";
+			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
+			ResultSet rs = mostrar.executeQuery();
+			while(rs.next()){
+				dm.addElement(rs.getString("nombre"));
+			}
+			lista.setModel(dm);
+			mostrar.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-
 
 
 }
