@@ -179,7 +179,7 @@ public class Menu extends JFrame implements ActionListener {
 			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
 			ResultSet rs = mostrar.executeQuery();
 			while(rs.next()){
-				dm.addElement(rs.getString("nombre"));
+				dm.addElement(rs.getString("nombre")+" "+rs.getString("edad"));
 			}
 			lista.setModel(dm);
 			mostrar.close();

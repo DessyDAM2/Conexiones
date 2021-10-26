@@ -16,7 +16,7 @@ public class SQLLite {
 
         } catch (SQLException e) {
 
-            System.out.println("Subnormal");
+            System.out.println("No se ha podido conectar");
 
         }
         return con;
