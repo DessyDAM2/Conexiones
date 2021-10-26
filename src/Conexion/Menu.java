@@ -43,7 +43,7 @@ public class Menu extends JFrame implements ActionListener {
 	}
 
 	public Menu() {
-
+		//Se
 		setTitle("Personas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel marco = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -92,6 +92,14 @@ public class Menu extends JFrame implements ActionListener {
 		}
 		if (botones.equals("Modificar")){
 			modificar();
+			try {
+				PreparedStatement mostrar = Conexion.conectar().prepareStatement("select nombre from `persona` where nombre = (?)");
+				mostrar.setString(1, String.valueOf(lista.getSelectedIndex()));
+				nombretexto.setText(String.valueOf(lista.getSelectedValue()));
+				ResultSet rs = mostrar.executeQuery();
+			}catch(SQLException ex){
+
+			}
 		}
 
 	}
@@ -170,6 +178,7 @@ public class Menu extends JFrame implements ActionListener {
 		ventana.pack();
 		ventana.setVisible(true);
 		dispose();
+
 	}
 
 
@@ -179,7 +188,7 @@ public class Menu extends JFrame implements ActionListener {
 			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
 			ResultSet rs = mostrar.executeQuery();
 			while(rs.next()){
-				dm.addElement(rs.getString("nombre")+" "+rs.getString("edad"));
+				dm.addElement(rs.getString("nombre"));
 			}
 			lista.setModel(dm);
 			mostrar.close();
