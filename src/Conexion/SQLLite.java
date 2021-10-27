@@ -5,10 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLLite {
-        private static final String URL = "jdbc:sqlite:C:/Users/Alumno_Fp/Desktop/SQLLite/chinook.db";
+            private static String URL = "jdbc:sqlite:C:/Users/Alumno_Fp/Desktop/";
 
-    public static Connection conectar(){
+    public static Connection conectarSQLlite(String id){
         Connection con = null;
+        URL = URL + id;
         try {
 
             con = DriverManager.getConnection(URL);
@@ -20,8 +21,5 @@ public class SQLLite {
 
         }
         return con;
-    }
-    public static void main(String[] args) {
-        Connection micon = conectar();
     }
 }

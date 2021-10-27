@@ -9,7 +9,7 @@ public class Connections {
     private static final String usuario = "Alvaro";
     private static final String contraseña = "admin1234";
 
-    public static Connection conectarTodo(String id){
+    public static Connection conectarBase(String id){
         Connection conexion = null;
         url = url + id;
         try {
