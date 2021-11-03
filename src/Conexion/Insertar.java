@@ -11,6 +11,7 @@ public class Insertar {
         Scanner sc = new Scanner(System.in);
             try {
                 Connection miCon = Conexion.conectar();
+                Personas p = new Personas();
                 String nombre = sc.next();
                 int edad = sc.nextInt();
 
@@ -18,6 +19,7 @@ public class Insertar {
                 insertar.setString(1,nombre);
                 insertar.setString(2, String.valueOf(edad));
                 insertar.executeUpdate();
+                miCon.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

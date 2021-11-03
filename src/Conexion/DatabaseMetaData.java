@@ -7,7 +7,6 @@ import java.sql.SQLException;
 public class DatabaseMetaData {
 
 
-
     public static void main(String[] args) throws SQLException {
         Connection micon = Conexion.conectar();
         java.sql.DatabaseMetaData dbmd = micon.getMetaData();
@@ -18,8 +17,8 @@ public class DatabaseMetaData {
         System.out.println(dbmd.getUserName());
         System.out.println();
         String[] tipos = {"TABLE"};
-        ResultSet tablas = dbmd.getTables(null,null,null,tipos);
-        while(tablas.next()){
+        ResultSet tablas = dbmd.getTables(null, null, null, tipos);
+        while (tablas.next()) {
             String catalogo = tablas.getString("TABLE_CAT");
             String esquema = tablas.getString("TABLE_SCHEM");
             String nombre = tablas.getString("TABLE_NAME");
