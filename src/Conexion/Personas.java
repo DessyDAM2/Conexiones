@@ -8,11 +8,6 @@ public class Personas implements Serializable{
     private static final long serialVersionUID = 1L;
 
 
-
-    public Personas(){
-
-    }
-
     public Personas(String nombre,String edad){
         this.edad=edad;
         this.nombre = nombre;
