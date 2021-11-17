@@ -17,7 +17,7 @@ public class Conexion {
             conexion = DriverManager.getConnection(url, usuario, contraseña);
             System.out.println("Conexion OK");
 
-            conexion.close();
+
         } catch (SQLException e) {
 
             System.out.println("No se ha podido conectar");

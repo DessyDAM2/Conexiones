@@ -20,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+//Autor Álvaro Dessy
 public class Menu extends JFrame implements ActionListener {
+	//Creamos todas las variables que vamos a utilizar
 	static JFrame ventana;
 	static JTextField nombretexto;
 	static JTextField edadtexto;
@@ -35,6 +37,8 @@ public class Menu extends JFrame implements ActionListener {
 	static JButton guardar;
 	static JButton cancelar;
 	static JList<Personas> lista;
+	static JButton ordenarNombre;
+	static JButton ordenarEdad;
 	static JButton Mostrar;
 
 	public static void main(String[] args) {
@@ -42,8 +46,9 @@ public class Menu extends JFrame implements ActionListener {
 
 	}
 
+	//Creamos la ventana principal con los botones y la lista para mostrar los nombres de la base de datos
 	public Menu() {
-		//Se
+
 		setTitle("Personas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel marco = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -61,6 +66,10 @@ public class Menu extends JFrame implements ActionListener {
 
 		marco.add(Borrar = new JButton("Modificar"));
 		Borrar.addActionListener(this);
+		marco.add(ordenarNombre = new JButton("ordenarNombre"));
+		ordenarNombre.addActionListener(this);
+		marco.add(ordenarEdad = new JButton("ordenarEdad"));
+		ordenarEdad.addActionListener(this);
 		setLocation(850, 450);
 		setMinimumSize(new Dimension(400, 100));
 
@@ -72,7 +81,7 @@ public class Menu extends JFrame implements ActionListener {
 		mostrarLista();
 		setVisible(true);
 	}
-
+	//Creamos un método para hacer funcionar los botones
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String botones = e.getActionCommand();
@@ -101,9 +110,18 @@ public class Menu extends JFrame implements ActionListener {
 
 			}
 		}
+		if (botones.equals("ordenarNombre")){
+			dm.clear();
+			ordenarNombre();
+		}
+		if (botones.equals(("ordenarEdad"))){
+			dm.clear();
+			ordenarEdad();
+		}
 
 	}
 
+	//Creamos una ventana para añadir
 	public void añadir() {
 		ventana = new JFrame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -128,6 +146,7 @@ public class Menu extends JFrame implements ActionListener {
 
 	}
 
+	//Creamos un método para el botón guardar
 	public void guardar() {
 
 		try {
@@ -137,6 +156,8 @@ public class Menu extends JFrame implements ActionListener {
 			insertar.setString(1, String.valueOf(nombretexto.getText()));
 			insertar.setString(2, String.valueOf(edadtexto.getText()));
 			insertar.executeUpdate();
+			dm.clear();
+			mostrarLista();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,7 +166,7 @@ public class Menu extends JFrame implements ActionListener {
 
 	}
 
-
+	//Creamos un método para el botón borrar
 	public void Borrar() {
 		try {
 			Connection miCon = Conexion.conectar();
@@ -153,12 +174,15 @@ public class Menu extends JFrame implements ActionListener {
 			eliminar.setString(1, nombretexto.getText());
 			eliminar.executeUpdate();
 			System.out.println("Borrado");
-
+			dm.clear();
+			mostrarLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	//Creamos una ventana para modificar la lista
 	public void modificar(){
 		ventana = new JFrame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +205,41 @@ public class Menu extends JFrame implements ActionListener {
 
 	}
 
+	//Creamos un método para el botón ordenarNombre
+	public void ordenarNombre(){
+		try{
+			String query ="select * from `persona` order by nombre ASC";
+			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
+			ResultSet rs = mostrar.executeQuery();
+			while(rs.next()){
+				dm.addElement(rs.getString("nombre"));
+			}
+			lista.setModel(dm);
+			mostrar.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
+	//Creamos un método para el botón ordenarEdad
+	public void ordenarEdad(){
+		try{
+			String query ="select * from `persona` order by edad DESC";
+			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
+			ResultSet rs = mostrar.executeQuery();
+			while(rs.next()){
+				dm.addElement(rs.getString("nombre"));
+			}
+			lista.setModel(dm);
+			mostrar.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Creamos un método para mostrar la lista al iniciar el programa en la ventana principal
 	public void mostrarLista(){
 		try{
 			String query ="select * from `persona`";
