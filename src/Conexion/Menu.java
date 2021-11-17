@@ -84,21 +84,28 @@ public class Menu extends JFrame implements ActionListener {
 	//Creamos un método para hacer funcionar los botones
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+
 		String botones = e.getActionCommand();
+		//Hace funcionar el botón añadir
 		if (botones.equals("Añadir")) {
 			lista.clearSelection();
 			añadir();
 		}
+		//Hace funcionar el botón borrar
 		if (botones.equals("Borrar")) {
 			Borrar();
 		}
+		//Hace funcionar el botón guardar
 		if (botones.equals("Guardar")) {
 			guardar();
 		}
+		//Hace funcionar el botón cancelar y atras
 		if (botones.equals("Cancelar")||botones.equals("Atras")) {
 			ventana.dispose();
 			setVisible(true);
 		}
+		//Hace funcionar el botón modificar
 		if (botones.equals("Modificar")){
 			modificar();
 			try {
@@ -110,10 +117,12 @@ public class Menu extends JFrame implements ActionListener {
 
 			}
 		}
+		//Hace funcionar el botón ordenarNombre
 		if (botones.equals("ordenarNombre")){
 			dm.clear();
 			ordenarNombre();
 		}
+		//Hace funcionar el botón ordenarEdad
 		if (botones.equals(("ordenarEdad"))){
 			dm.clear();
 			ordenarEdad();
@@ -150,12 +159,14 @@ public class Menu extends JFrame implements ActionListener {
 	public void guardar() {
 
 		try {
-
+			//Conecta con la base de datos
 			Connection miCon = Conexion.conectar();
+			//Introduce los valores que insertes en la base de datos
 			PreparedStatement insertar = miCon.prepareStatement("INSERT INTO `persona` (`nombre`,`edad`) values (?,?)");
 			insertar.setString(1, String.valueOf(nombretexto.getText()));
 			insertar.setString(2, String.valueOf(edadtexto.getText()));
 			insertar.executeUpdate();
+			//Actualiza la lista con los cambios realizados
 			dm.clear();
 			mostrarLista();
 
@@ -169,11 +180,14 @@ public class Menu extends JFrame implements ActionListener {
 	//Creamos un método para el botón borrar
 	public void Borrar() {
 		try {
+			//Conecta con la base de datos
 			Connection miCon = Conexion.conectar();
+			//Elimina las columnas que tengan el nombre introducido en la base de datos
 			PreparedStatement eliminar = miCon.prepareStatement("DELETE FROM `persona` WHERE nombre = (?)");
 			eliminar.setString(1, nombretexto.getText());
 			eliminar.executeUpdate();
 			System.out.println("Borrado");
+			//Actualiza la lista con los cambios realizados
 			dm.clear();
 			mostrarLista();
 		} catch (SQLException e) {
@@ -209,6 +223,7 @@ public class Menu extends JFrame implements ActionListener {
 	public void ordenarNombre(){
 		try{
 			String query ="select * from `persona` order by nombre ASC";
+			//Conectamos a la base de datos
 			PreparedStatement mostrar = Conexion.conectar().prepareStatement(query);
 			ResultSet rs = mostrar.executeQuery();
 			while(rs.next()){
