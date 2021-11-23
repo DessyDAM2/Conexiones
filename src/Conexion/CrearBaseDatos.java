@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CrearBaseDatos {
-    private static File f1 = new File("C:/Users/Alumno_Fp/Desktop/BaseDatos/Acceso.db");
+    private static File f1 = new File("C:\\Users\\diosm\\OneDrive\\Escritorio\\SQL\\Acceso.db");
 
     public static void createNewDatabase(String fileName) {
 
-        String url = "jdbc:sqlite:C:/Users/Alumno_FP/Desktop/BaseDatos/" + fileName;
+        String url = "jdbc:sqlite:C:\\Users\\diosm\\OneDrive\\Escritorio\\SQL" + fileName;
 
         try {
             Connection conn = DriverManager.getConnection(url);

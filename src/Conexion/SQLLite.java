@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLLite {
-    private static String URL = "jdbc:sqlite:C:/Users/Alumno_Fp/Desktop/BaseDatos/";
+    private static String URL = "jdbc:sqlite:C:\\Users\\diosm\\OneDrive\\Escritorio\\SQL";
 
     public static Connection conectarSQLlite(String id){
         Connection con = null;

@@ -1,4 +1,4 @@
-package Conexion;
+package Menu;
 
 import java.io.Serializable;
 
